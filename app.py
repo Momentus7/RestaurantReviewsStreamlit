@@ -4,13 +4,17 @@ import re
 
 # Database connection
 def get_db_connection():
-    connection = mysql.connector.connect(
-        host='localhost',
-        user='root',
-        password='Mpag@88rbtsm',
-        database='reviews_db'
-    )
-    return connection
+    try:
+        connection = mysql.connector.connect(
+            host=os.getenv('DB_HOST', 'your-database-host'),  # Update to your actual host
+            user=os.getenv('DB_USER', 'root'),
+            password=os.getenv('DB_PASSWORD', 'Mpag@88rbtsm'),
+            database=os.getenv('DB_NAME', 'reviews_db')
+        )
+        return connection
+    except mysql.connector.Error as err:
+        st.error(f"Error: {err}")
+        return None
 
 # User login
 def login_user(username, password):
